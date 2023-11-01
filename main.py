@@ -16,8 +16,12 @@ bot = telebot.TeleBot(tg_api)
 @bot.message_handler(commands=['start'])
 def start(message):
     bot.send_message(message.chat.id, 'Привет! я ChatGPT.')
-    #@TODO(Сделать проверку кода доступа)
-    # Веддите код доступ
+
+
+#@TODO(Сделать проверку кода доступа)
+# Веддите код доступ
+# @bot.message_handler(content_types=[''])
+
 
 @bot.message_handler(content_types=['text'])
 def talk(message):
@@ -25,12 +29,14 @@ def talk(message):
         model="text-davinci-003",
         prompt=message.text,
         temperature=0.5,
+        max_tokens=1000,
         top_p=1.0,
         frequency_penalty=0.5,
+        presence_penalty=0.5,
     )
 
     gpt_text = response['choices'][0]['text']
-    bot.send_message(message.chat_id, gpt_text)
+    bot.send_message(message.chat.id, gpt_text)
 
 
 bot.polling(none_stop=True)
